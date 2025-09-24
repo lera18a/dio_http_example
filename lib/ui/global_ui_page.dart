@@ -1,36 +1,26 @@
 import 'package:dio_http_example/api_key.dart';
 import 'package:dio_http_example/api_models/api_holidays/api_holiday.dart';
-import 'package:dio_http_example/ui/dropdown_model.dart';
+import 'package:dio_http_example/ui/dropdowns/dropdown_country_page.dart';
+import 'package:dio_http_example/ui/dropdowns/dropdown_month_page.dart';
+import 'package:dio_http_example/ui/ui_models/dropdown_model.dart';
 import 'package:dio_http_example/list.dart';
-import 'package:dio_http_example/ui/list_view_page.dart';
+import 'package:dio_http_example/ui/ui_models/list_view_model.dart';
 import 'package:flutter/material.dart';
 import '../api_models/api_countries/api_country.dart';
 import '../api_models/api_holidays/api_holiday_type/holiday_type.dart';
 import '../holidays_api_dio_client.dart';
-import 'holidays_button.dart';
+import 'dropdowns/dropdown_type_page.dart';
+import 'dropdowns/dropdown_year_page.dart';
+import 'ui_models/holidays_button.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('API Holidays')),
-        body: const Center(child: CountryDropdown()),
-      ),
-    );
-  }
-}
-
-class CountryDropdown extends StatefulWidget {
-  const CountryDropdown({super.key});
+class GlobalUIPage extends StatefulWidget {
+  const GlobalUIPage({super.key});
 
   @override
-  State<CountryDropdown> createState() => _CountryDropdownState();
+  State<GlobalUIPage> createState() => _GlobalUIPageState();
 }
 
-class _CountryDropdownState extends State<CountryDropdown> {
+class _GlobalUIPageState extends State<GlobalUIPage> {
   List<ApiHoliday>? holidaysList;
   List<ApiCountry>? countryList;
   List<HolidayType>? typesList;
@@ -61,83 +51,10 @@ class _CountryDropdownState extends State<CountryDropdown> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text(
-              'Выберите страну:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            if (countryList != null)
-              DropdownModel(
-                text: 'Выберите страну',
-                list: countryList!,
-                convert: (e) => "${e.flagUnicode} ${e.countryName}",
-                onSelected: (ApiCountry p1) {
-                  setState(() {
-                    selectedCountry = p1.iso3166;
-                  });
-                },
-              ),
-            const SizedBox(height: 20),
-            const Text(
-              'Выберите год:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            DropdownModel(
-              text: 'Выберите год',
-              convert: (e) => e.toString(),
-              list: years,
-              onSelected: (int p1) {
-                setState(() {
-                  selectedYear = p1;
-                });
-              },
-            ),
-            SizedBox(height: 20),
-            const Text(
-              'Выберите месяц:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            DropdownModel(
-              text: 'Выберите месяц (необязательно)',
-              convert: (e) => e.toString(),
-              list: months,
-              onSelected: (int p1) {
-                setState(() {
-                  selectedMonth = p1;
-                });
-              },
-            ),
-            SizedBox(height: 20),
-            SizedBox(height: 20),
-            const Text(
-              'Выберите тип праздика:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            DropdownModel(
-              text: 'Выберите тип праздника (необязательно)',
-              convert: (e) {
-                switch (e) {
-                  case HolidayType.national:
-                    return 'Национальные';
-                  case HolidayType.local:
-                    return 'Местные';
-                  case HolidayType.religious:
-                    return 'Религиозные';
-                  case HolidayType.observance:
-                    return 'Памятные даты';
-                }
-              },
-              list: typesList!,
-              onSelected: (HolidayType p1) {
-                setState(() {
-                  selectedType = p1;
-                });
-              },
-            ),
-            SizedBox(height: 20),
+            DropDownCountryPage(),
+            DropDownYearPage(),
+            DropDowmMonthPage(),
+            DropDownTypePage(),
             HolidaysButton(
               onPressed: () async {
                 if (selectedCountry != null && selectedYear != null) {
@@ -154,7 +71,7 @@ class _CountryDropdownState extends State<CountryDropdown> {
             ),
             SizedBox(height: 20),
             if (holidaysList != null)
-              Expanded(child: ListViewPage(holidaysList: holidaysList!)),
+              Expanded(child: ListViewModel(holidaysList: holidaysList!)),
           ],
         ),
       ),

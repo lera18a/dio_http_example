@@ -1,10 +1,10 @@
-import 'package:dio_http_example/ui/ui_holiday_page.dart';
+import 'package:dio_http_example/ui/ui_models/ui_holiday_page.dart';
 import 'package:flutter/widgets.dart';
 
-import '../api_models/api_holidays/api_holiday.dart';
+import '../../api_models/api_holidays/api_holiday.dart';
 
-class ListViewPage extends StatelessWidget {
-  const ListViewPage({super.key, required this.holidaysList});
+class ListViewModel extends StatelessWidget {
+  const ListViewModel({super.key, required this.holidaysList});
   final List<ApiHoliday> holidaysList;
 
   @override
