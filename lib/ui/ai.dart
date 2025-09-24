@@ -38,6 +38,7 @@ class _CountryDropdownState extends State<CountryDropdown> {
   );
   String? selectedCountry;
   int? selectedYear;
+  int? selectedMonth;
 
   @override
   void initState() {
@@ -89,12 +90,31 @@ class _CountryDropdownState extends State<CountryDropdown> {
               },
             ),
             SizedBox(height: 20),
+            const Text(
+              'Выберите месяц:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            DropdownModel(
+              text: 'Выберите месяц',
+              convert: (e) => e.toString(),
+              list: months,
+              onSelected: (int p1) {
+                setState(() {
+                  selectedMonth = p1;
+                });
+              },
+            ),
+            SizedBox(height: 20),
             HolidaysButton(
               onPressed: () async {
-                if (selectedCountry != null && selectedYear != null) {
+                if (selectedCountry != null &&
+                    selectedYear != null &&
+                    selectedMonth != null) {
                   final response = await apiClient!.getHolidays(
                     country: selectedCountry!,
                     year: selectedYear!,
+                    month: selectedMonth!,
                   );
                   holidaysList = response.response.holidays;
                   setState(() {});
