@@ -4,8 +4,8 @@ import '../../list.dart';
 import '../ui_models/dropdown_model.dart';
 
 class DropDownYearPage extends StatefulWidget {
-  const DropDownYearPage({super.key});
-
+  const DropDownYearPage({super.key, required this.onYearSelected});
+  final Function(int) onYearSelected;
   @override
   State<DropDownYearPage> createState() => _DropDownYearPageState();
 }
@@ -28,6 +28,7 @@ class _DropDownYearPageState extends State<DropDownYearPage> {
           onSelected: (int p1) {
             setState(() {
               selectedYear = p1;
+              widget.onYearSelected(selectedYear!);
             });
           },
         ),

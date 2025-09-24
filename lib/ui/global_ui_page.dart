@@ -50,10 +50,26 @@ class _GlobalUIPageState extends State<GlobalUIPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            DropDownCountryPage(),
-            DropDownYearPage(),
-            DropDowmMonthPage(),
-            DropDownTypePage(),
+            DropDownCountryPage(
+              onCountrySelected: (String p1) {
+                selectedCountry = p1;
+              },
+            ),
+            DropDownYearPage(
+              onYearSelected: (int isoCode) {
+                selectedYear = isoCode;
+              },
+            ),
+            DropDowmMonthPage(
+              onMonthSelected: (int p1) {
+                selectedMonth = p1;
+              },
+            ),
+            DropDownTypePage(
+              onTypeSelected: (HolidayType p1) {
+                selectedType = p1;
+              },
+            ),
             HolidaysButton(
               onPressed: () async {
                 if (selectedCountry != null && selectedYear != null) {

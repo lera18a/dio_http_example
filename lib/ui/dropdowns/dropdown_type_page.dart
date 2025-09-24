@@ -4,7 +4,8 @@ import '../../api_models/api_holidays/api_holiday_type/holiday_type.dart';
 import '../ui_models/dropdown_model.dart';
 
 class DropDownTypePage extends StatefulWidget {
-  const DropDownTypePage({super.key});
+  const DropDownTypePage({super.key, required this.onTypeSelected});
+  final Function(HolidayType) onTypeSelected;
 
   @override
   State<DropDownTypePage> createState() => _DropDownTypePageState();
@@ -47,6 +48,7 @@ class _DropDownTypePageState extends State<DropDownTypePage> {
           onSelected: (HolidayType p1) {
             setState(() {
               selectedType = p1;
+              widget.onTypeSelected(selectedType!);
             });
           },
         ),

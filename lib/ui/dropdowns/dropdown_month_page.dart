@@ -4,7 +4,8 @@ import '../../list.dart';
 import '../ui_models/dropdown_model.dart';
 
 class DropDowmMonthPage extends StatefulWidget {
-  const DropDowmMonthPage({super.key});
+  const DropDowmMonthPage({super.key, required this.onMonthSelected});
+  final Function(int) onMonthSelected;
 
   @override
   State<DropDowmMonthPage> createState() => _DropDowmMonthPageState();
@@ -28,6 +29,7 @@ class _DropDowmMonthPageState extends State<DropDowmMonthPage> {
           onSelected: (int p1) {
             setState(() {
               selectedMonth = p1;
+              widget.onMonthSelected(selectedMonth!);
             });
           },
         ),

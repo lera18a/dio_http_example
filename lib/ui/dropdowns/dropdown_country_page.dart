@@ -6,7 +6,8 @@ import '../../holidays_api_dio_client.dart';
 import '../ui_models/dropdown_model.dart';
 
 class DropDownCountryPage extends StatefulWidget {
-  const DropDownCountryPage({super.key});
+  const DropDownCountryPage({super.key, required this.onCountrySelected});
+  final Function(String) onCountrySelected;
 
   @override
   State<DropDownCountryPage> createState() => _DropDownCountryPageState();
@@ -46,6 +47,7 @@ class _DropDownCountryPageState extends State<DropDownCountryPage> {
             onSelected: (ApiCountry p1) {
               setState(() {
                 selectedCountry = p1.iso3166;
+                widget.onCountrySelected(selectedCountry!);
               });
             },
           ),
