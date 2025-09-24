@@ -1,10 +1,10 @@
 import 'package:dio_http_example/api_key.dart';
 import 'package:dio_http_example/api_models/api_holidays/api_holiday.dart';
-import 'package:dio_http_example/api_models/api_holidays/api_holiday_type/holiday_type.dart';
 import 'package:dio_http_example/ui/dropdown_model.dart';
 import 'package:dio_http_example/list.dart';
 import 'package:dio_http_example/ui/list_view_page.dart';
 import 'package:flutter/material.dart';
+import '../api_models/api_countries/api_country.dart';
 import '../holidays_api_dio_client.dart';
 import 'holidays_button.dart';
 
@@ -31,12 +31,23 @@ class CountryDropdown extends StatefulWidget {
 
 class _CountryDropdownState extends State<CountryDropdown> {
   List<ApiHoliday>? holidaysList;
+  List<ApiCountry>? countryList;
   HolidaysApiDioClient apiClient = HolidaysApiDioClient(
     apiKey: apiKey,
     host: 'https://calendarific.com/api/v2',
   );
   String? selectedCountry;
   int? selectedYear;
+
+  @override
+  void initState() {
+    super.initState();
+    apiClient
+        .getCountries()
+        .then((value) => countryList = value.response.countries)
+        .then((_) => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -50,15 +61,17 @@ class _CountryDropdownState extends State<CountryDropdown> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            DropdownModel<String>(
-              text: 'Выберите страну',
-              list: countries,
-              onSelected: (String p1) {
-                setState(() {
-                  selectedCountry = p1;
-                });
-              },
-            ),
+            if (countryList != null)
+              DropdownModel(
+                text: 'Выберите страну',
+                list: countryList!,
+                convert: (e) => "${e.flagUnicode} ${e.countryName}",
+                onSelected: (ApiCountry p1) {
+                  setState(() {
+                    selectedCountry = p1.iso3166;
+                  });
+                },
+              ),
             const SizedBox(height: 20),
             const Text(
               'Выберите год:',
@@ -67,6 +80,7 @@ class _CountryDropdownState extends State<CountryDropdown> {
             SizedBox(height: 20),
             DropdownModel(
               text: 'Выберите год',
+              convert: (e) => e.toString(),
               list: years,
               onSelected: (int p1) {
                 setState(() {
