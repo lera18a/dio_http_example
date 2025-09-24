@@ -8,7 +8,12 @@ class UiHolidayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.green.shade400),
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.green.shade400,
+
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         children: [
           HolidayValueText(text: holidays.country.name),
