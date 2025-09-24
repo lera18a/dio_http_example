@@ -22,8 +22,12 @@ class UiHolidayPage extends StatelessWidget {
           HolidayValueText(text: holidays.type.join()),
           Row(
             children: [
+              if (holidays.date.datetime.day! < 10) Trifle(text: '0'),
               HolidayValueText(text: '${holidays.date.datetime.day}'),
+              Trifle(text: '.'),
+              if (holidays.date.datetime.month! < 10) Trifle(text: '0'),
               HolidayValueText(text: '${holidays.date.datetime.month}'),
+              Trifle(text: '.'),
               HolidayValueText(text: '${holidays.date.datetime.year}'),
             ],
           ),
@@ -38,6 +42,18 @@ class HolidayValueText extends StatelessWidget {
 
   final String text;
 
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+    );
+  }
+}
+
+class Trifle extends StatelessWidget {
+  const Trifle({super.key, required this.text});
+  final String text;
   @override
   Widget build(BuildContext context) {
     return Text(
