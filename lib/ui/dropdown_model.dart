@@ -6,10 +6,12 @@ class DropdownModel<T> extends StatefulWidget {
     required this.text,
     required this.list,
     required this.onSelected,
+    required this.convert,
   });
   final String text;
   final List<T> list;
   final void Function(T) onSelected;
+  final String Function(T) convert;
   @override
   State<DropdownModel<T>> createState() => _DropdownModelState<T>();
 }
@@ -21,9 +23,10 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
+        Column(
           children: [
             DropdownButton<T>(
+              isExpanded: true,
               value: selected,
               hint: Text(widget.text),
               icon: const Icon(Icons.arrow_drop_down),
@@ -40,14 +43,14 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
               items: widget.list.map<DropdownMenuItem<T>>((T country) {
                 return DropdownMenuItem<T>(
                   value: country,
-                  child: Text(country.toString()),
+                  child: Text(widget.convert(country)),
                 );
               }).toList(),
             ),
             const SizedBox(width: 30),
             if (selected != null)
               Text(
-                'Вы выбрали: $selected',
+                'Вы выбрали: ${widget.convert(selected!)}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
