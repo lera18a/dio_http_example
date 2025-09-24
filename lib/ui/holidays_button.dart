@@ -5,18 +5,24 @@ class HolidaysButton extends StatelessWidget {
   final void Function() onPressed;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.blue,
-      ),
-      child: IconButton(
-        onPressed: onPressed,
-        icon: Text(
-          'Вывести праздники',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return ElevatedButton(
+      style: ButtonStyle(
+        padding: WidgetStatePropertyAll(EdgeInsets.all(20)),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(20),
+          ),
         ),
-        padding: EdgeInsets.all(20),
+        backgroundColor: WidgetStatePropertyAll(Colors.blue.shade200),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        'Вывести праздники',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
