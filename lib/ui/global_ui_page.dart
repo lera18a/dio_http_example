@@ -2,8 +2,7 @@ import 'package:dio_http_example/api_key.dart';
 import 'package:dio_http_example/api_models/api_holidays/api_holiday.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_country_page.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_month_page.dart';
-import 'package:dio_http_example/ui/ui_models/dropdown_model.dart';
-import 'package:dio_http_example/list.dart';
+
 import 'package:dio_http_example/ui/ui_models/list_view_model.dart';
 import 'package:flutter/material.dart';
 import '../api_models/api_countries/api_country.dart';

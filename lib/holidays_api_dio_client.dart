@@ -24,19 +24,27 @@ class HolidaysApiDioClient {
     String? location,
     HolidayType? type,
   }) async {
-    final Response response = await _dio.get(
-      '/holidays',
-      queryParameters: {
-        _API_KEY_PARAMETER: apiKey,
-        'year': year,
-        'country': country,
-        'day': day,
-        'month': month,
-        'location': location,
-        'type': type?.name,
-      },
-    );
-    return ApiMetaHolidayResponse.fromJson(response.data);
+    try {
+      final Response response = await _dio.get(
+        '/holidays',
+        queryParameters: {
+          _API_KEY_PARAMETER: apiKey,
+          'year': year,
+          'country': country,
+          'day': day,
+          'month': month,
+          'location': location,
+          'type': type?.name,
+        },
+      );
+      print('${response.statusCode}');
+      print('${response.data}');
+
+      return ApiMetaHolidayResponse.fromJson(response.data);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 
   Future<ApiMetaLanguagesResponse> getLanguages() async {

@@ -1,8 +1,8 @@
 import 'package:dio_http_example/ui/ui_models/trifle_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../api_models/api_holidays/api_holiday.dart';
-import 'holidays_value_text_model.dart';
+import '../api_models/api_holidays/api_holiday.dart';
+import 'ui_models/holidays_value_text_model.dart';
 
 class UiHolidayPage extends StatelessWidget {
   const UiHolidayPage({super.key, required this.holidays});
