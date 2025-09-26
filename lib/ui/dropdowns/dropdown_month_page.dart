@@ -3,16 +3,16 @@ import 'package:flutter/widgets.dart';
 import '../../list.dart';
 import '../ui_models/dropdown_model.dart';
 
-class DropDowmMonthPage extends StatefulWidget {
-  const DropDowmMonthPage({super.key, required this.onMonthSelected});
+class DropDownMonthPage extends StatelessWidget {
   final Function(int) onMonthSelected;
+  final int? selectedMonth;
 
-  @override
-  State<DropDowmMonthPage> createState() => _DropDowmMonthPageState();
-}
+  const DropDownMonthPage({
+    super.key,
+    required this.onMonthSelected,
+    this.selectedMonth,
+  });
 
-class _DropDowmMonthPageState extends State<DropDowmMonthPage> {
-  int? selectedMonth;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,11 +26,8 @@ class _DropDowmMonthPageState extends State<DropDowmMonthPage> {
           text: 'Выберите месяц (необязательно)',
           convert: (e) => e.toString(),
           list: months,
-          onSelected: (int p1) {
-            setState(() {
-              selectedMonth = p1;
-              widget.onMonthSelected(selectedMonth!);
-            });
+          onSelected: (int month) {
+            onMonthSelected(month);
           },
         ),
         SizedBox(height: 20),

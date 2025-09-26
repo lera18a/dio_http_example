@@ -1,93 +1,101 @@
-import 'package:dio_http_example/api_key.dart';
-import 'package:dio_http_example/api_models/api_holidays/api_holiday.dart';
+import 'package:dio_http_example/bloc_holidays/bloc/holidays_bloc.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_country_page.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_month_page.dart';
-
 import 'package:dio_http_example/ui/ui_models/list_view_model.dart';
 import 'package:flutter/material.dart';
-import '../api_models/api_countries/api_country.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../api_models/api_holidays/api_holiday_type/holiday_type.dart';
-import '../holidays_api_dio_client.dart';
 import 'dropdowns/dropdown_type_page.dart';
 import 'dropdowns/dropdown_year_page.dart';
 import 'ui_models/holidays_button.dart';
 
-class GlobalUIPage extends StatefulWidget {
+class GlobalUIPage extends StatelessWidget {
   const GlobalUIPage({super.key});
 
   @override
-  State<GlobalUIPage> createState() => _GlobalUIPageState();
-}
-
-class _GlobalUIPageState extends State<GlobalUIPage> {
-  List<ApiHoliday>? holidaysList;
-  List<ApiCountry>? countryList;
-  List<HolidayType>? typesList;
-  HolidaysApiDioClient apiClient = HolidaysApiDioClient(
-    apiKey: apiKey,
-    host: 'https://calendarific.com/api/v2',
-  );
-  String? selectedCountry;
-  int? selectedYear;
-  int? selectedMonth;
-  HolidayType? selectedType;
-
-  @override
-  void initState() {
-    super.initState();
-    apiClient
-        .getCountries()
-        .then((value) => countryList = value.response.countries)
-        .then((_) => setState(() {}));
-    typesList = HolidayType.values;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            DropDownCountryPage(
-              onCountrySelected: (String p1) {
-                selectedCountry = p1;
-              },
-            ),
-            DropDownYearPage(
-              onYearSelected: (int isoCode) {
-                selectedYear = isoCode;
-              },
-            ),
-            DropDowmMonthPage(
-              onMonthSelected: (int p1) {
-                selectedMonth = p1;
-              },
-            ),
-            DropDownTypePage(
-              onTypeSelected: (HolidayType p1) {
-                selectedType = p1;
-              },
-            ),
-            HolidaysButton(
-              onPressed: () async {
-                if (selectedCountry != null && selectedYear != null) {
-                  final response = await apiClient.getHolidays(
-                    country: selectedCountry!,
-                    year: selectedYear!,
-                    month: selectedMonth,
-                    type: selectedType,
-                  );
-                  holidaysList = response.response.holidays;
-                  setState(() {});
-                }
-              },
-            ),
-            SizedBox(height: 20),
-            if (holidaysList != null)
-              Expanded(child: ListViewModel(holidaysList: holidaysList!)),
-          ],
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => context.read<HolidaysBloc>().add(LoadingCountryListEvent()),
+    );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('API Holidays'),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SafeArea(
+          child: BlocBuilder<HolidaysBloc, HolidaysState>(
+            builder: (context, state) {
+              if (state.isLoading) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  DropDownCountryPage(
+                    onCountrySelected: (String country) {
+                      context.read<HolidaysBloc>().add(
+                        DropDownCountryEvent(selectedCountry: country),
+                      );
+                    },
+                    countryList: state.countryList ?? [],
+                  ),
+                  DropDownYearPage(
+                    onYearSelected: (int isoCode) {
+                      context.read<HolidaysBloc>().add(
+                        DropDownYearEvent(selectedYear: isoCode),
+                      );
+                    },
+                  ),
+                  DropDownMonthPage(
+                    onMonthSelected: (int month) {
+                      context.read<HolidaysBloc>().add(
+                        DropDownMonthEvent(selectedMonth: month),
+                      );
+                    },
+                  ),
+                  DropDownTypePage(
+                    onTypeSelected: (HolidayType type) {
+                      context.read<HolidaysBloc>().add(
+                        DropDownTypeEvent(selectedType: type),
+                      );
+                    },
+                    typesList: HolidayType.values.toList(),
+                  ),
+                  HolidaysButton(
+                    onPressed: () {
+                      context.read<HolidaysBloc>().add(HolidaysButtonEvent());
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  if (state.error != null)
+                    Text(
+                      state.error!,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  if (state.stateHolidaysList.isNotEmpty)
+                    Expanded(
+                      child: ListViewModel(
+                        holidaysList: state.stateHolidaysList,
+                      ),
+                    ),
+                  if (!state.isLoading &&
+                      state.stateHolidaysList.isEmpty &&
+                      state.stateCountry != null &&
+                      state.stateYear != null)
+                    Text(
+                      'Праздники не найдены',
+                      style: TextStyle(fontSize: 20, color: Colors.grey),
+                    ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

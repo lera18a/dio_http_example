@@ -3,15 +3,16 @@ import 'package:flutter/widgets.dart';
 import '../../list.dart';
 import '../ui_models/dropdown_model.dart';
 
-class DropDownYearPage extends StatefulWidget {
-  const DropDownYearPage({super.key, required this.onYearSelected});
+class DropDownYearPage extends StatelessWidget {
   final Function(int) onYearSelected;
-  @override
-  State<DropDownYearPage> createState() => _DropDownYearPageState();
-}
+  final int? selectedYear;
 
-class _DropDownYearPageState extends State<DropDownYearPage> {
-  int? selectedYear;
+  const DropDownYearPage({
+    super.key,
+    required this.onYearSelected,
+    this.selectedYear,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,11 +26,8 @@ class _DropDownYearPageState extends State<DropDownYearPage> {
           text: 'Выберите год',
           convert: (e) => e.toString(),
           list: years,
-          onSelected: (int p1) {
-            setState(() {
-              selectedYear = p1;
-              widget.onYearSelected(selectedYear!);
-            });
+          onSelected: (int year) {
+            onYearSelected(year);
           },
         ),
         SizedBox(height: 20),
