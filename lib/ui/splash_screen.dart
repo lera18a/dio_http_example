@@ -24,6 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -31,17 +32,17 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Image.asset('assets/holiday.jpg', fit: BoxFit.fill),
           ),
           Center(
-            child: Text(
-              'HolidayApp',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+            child: Text('HolidayApp', style: theme.textTheme.headlineLarge),
           ),
         ],
       ),
     );
   }
 }
+// Center(
+//   child: AnimatedOpacity(
+//     opacity: 1.0,
+//     duration: Duration(milliseconds: 800),
+//     child: Text(...),
+//   ),
+// ),

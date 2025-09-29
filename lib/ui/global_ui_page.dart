@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../api_models/api_holidays/api_holiday_type/holiday_type.dart';
 import 'dropdowns/dropdown_type_page.dart';
 import 'dropdowns/dropdown_year_page.dart';
+import '../appbar/icons/assets_icon.dart';
 import 'ui_models/holidays_button.dart';
 
 class GlobalUIPage extends StatelessWidget {
@@ -17,11 +18,9 @@ class GlobalUIPage extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => context.read<HolidaysBloc>().add(LoadingCountryListEvent()),
     );
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('API Holidays'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
-      ),
+      appBar: AppBar(title: Text('API Holidays'), actions: [AssetsIcon()]),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SafeArea(
@@ -30,7 +29,6 @@ class GlobalUIPage extends StatelessWidget {
               if (state.isLoading) {
                 return Center(child: CircularProgressIndicator());
               }
-
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -71,13 +69,7 @@ class GlobalUIPage extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   if (state.error != null)
-                    Text(
-                      state.error!,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    Text(state.error!, style: theme.textTheme.labelMedium),
                   if (state.stateHolidaysList.isNotEmpty)
                     Expanded(
                       child: ListViewModel(

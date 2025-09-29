@@ -21,6 +21,7 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         Column(
@@ -28,12 +29,21 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
             DropdownButton<T>(
               isExpanded: true,
               value: selected,
-              hint: Text(widget.text),
+              hint: Text(
+                widget.text,
+                style:
+                    theme.textTheme.labelMedium?.copyWith(
+                      color: theme.hintColor,
+                    ) ??
+                    const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
               icon: const Icon(Icons.arrow_drop_down),
               iconSize: 30,
               elevation: 8,
-              style: const TextStyle(color: Colors.black, fontSize: 16),
-              underline: Container(height: 2, color: Colors.blue),
+              //стиль из темы
+              style: theme.textTheme.bodyMedium,
+              // акцентный цвет темы
+              underline: Container(height: 2, color: theme.colorScheme.primary),
               onChanged: (T? newValue) {
                 setState(() {
                   selected = newValue;
@@ -47,14 +57,11 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
                 );
               }).toList(),
             ),
-            const SizedBox(width: 30),
+            const SizedBox(height: 30),
             if (selected != null)
               Text(
                 'Вы выбрали: ${widget.convert(selected!)}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: theme.textTheme.titleSmall,
               ),
           ],
         ),

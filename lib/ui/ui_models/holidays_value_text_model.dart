@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class HolidayValueTextModel extends StatelessWidget {
   const HolidayValueTextModel({super.key, required this.text});
@@ -7,9 +7,10 @@ class HolidayValueTextModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Text(
       text,
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 }

@@ -12,7 +12,7 @@ class UiHolidayPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.green.shade400,
+        color: Theme.of(context).colorScheme.primaryContainer,
 
         borderRadius: BorderRadius.circular(20),
       ),
