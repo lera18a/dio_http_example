@@ -1,4 +1,4 @@
-import 'package:dio_http_example/bloc_holidays/bloc/holidays_bloc.dart';
+import 'package:dio_http_example/bloc/bloc_holidays/holidays_bloc.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_country_page.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_month_page.dart';
 import 'package:dio_http_example/ui/ui_models/list_view_model.dart';
@@ -11,7 +11,8 @@ import '../appbar/icons/assets_icon.dart';
 import 'ui_models/holidays_button.dart';
 
 class GlobalUIPage extends StatelessWidget {
-  const GlobalUIPage({super.key});
+  const GlobalUIPage({super.key, required this.onThemeChanged});
+  final ValueChanged<bool> onThemeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,10 @@ class GlobalUIPage extends StatelessWidget {
     );
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text('API Holidays'), actions: [AssetsIcon()]),
+      appBar: AppBar(
+        title: Text('API Holidays'),
+        actions: [AssetsIcon(onThemeChanged: onThemeChanged)],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SafeArea(

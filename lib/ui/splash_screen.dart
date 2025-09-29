@@ -2,8 +2,8 @@ import 'package:dio_http_example/ui/global_ui_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
+  const SplashScreen({super.key, required this.onThemeChanged});
+  final ValueChanged<bool> onThemeChanged;
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -17,7 +17,10 @@ class _SplashScreenState extends State<SplashScreen> {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => GlobalUIPage()),
+        MaterialPageRoute(
+          builder: (context) =>
+              GlobalUIPage(onThemeChanged: widget.onThemeChanged),
+        ),
       );
     });
   }

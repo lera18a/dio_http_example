@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SwitchModel extends StatefulWidget {
-  final bool isSwitched;
+  final bool value;
+  final ValueChanged<bool> onChanged;
 
-  const SwitchModel({super.key, this.isSwitched = false});
+  const SwitchModel({super.key, this.value = false, required this.onChanged});
 
   @override
   State<SwitchModel> createState() => _SwitchModelState();
@@ -19,12 +20,8 @@ class _SwitchModelState extends State<SwitchModel> {
       child: Transform.scale(
         scale: 1.2,
         child: Switch(
-          value: isSwitched,
-          onChanged: (value) {
-            setState(() {
-              isSwitched = value;
-            });
-          },
+          value: widget.value,
+          onChanged: widget.onChanged,
           activeTrackColor: Colors.lightGreenAccent,
           activeThumbColor: Colors.green,
         ),

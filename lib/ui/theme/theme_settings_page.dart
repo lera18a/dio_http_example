@@ -3,17 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ThemeSettingsPage extends StatefulWidget {
-  const ThemeSettingsPage({super.key});
-
+  const ThemeSettingsPage({
+    super.key,
+    required this.initialTheme,
+    required this.onThemeChanged,
+  });
+  final bool initialTheme;
+  final ValueChanged<bool> onThemeChanged;
   @override
   State<ThemeSettingsPage> createState() => _ThemeSettingsPageState();
 }
 
 class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
   bool isSwitched = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isSwitched = widget.initialTheme; // ← инициализируем из параметра
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Настройка темы')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
@@ -21,17 +34,29 @@ class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Темная тема',
-                      style: GoogleFonts.aBeeZee(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  Text(
+                    'Темная тема',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(fontSize: 16),
                   ),
-                  SwitchModel(),
+                  SwitchModel(
+                    value: isSwitched,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isSwitched = value;
+                      });
+                      widget.onThemeChanged(value);
+                    },
+                  ),
+                  Text(
+                    'Светлая тема',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(fontSize: 16),
+                  ),
                 ],
               ),
             ],
