@@ -1,6 +1,5 @@
 import 'package:dio_http_example/ui/theme/theme_models/switch_model.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ThemeSettingsPage extends StatefulWidget {
   const ThemeSettingsPage({
