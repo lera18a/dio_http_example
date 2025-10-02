@@ -1,5 +1,8 @@
+import 'package:dio_http_example/bloc/bloc_holidays/holidays_bloc.dart';
 import 'package:dio_http_example/ui/global_ui_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, required this.onThemeChanged});
@@ -12,32 +15,36 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      //ПРОВЕРКА! Если виджет уже не в дереве — выходим.
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              GlobalUIPage(onThemeChanged: widget.onThemeChanged),
-        ),
-      );
-    });
+    FlutterNativeSplash.remove();
+    context.read<HolidaysBloc>().add(LoadingCountryListEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset('assets/holiday.jpg', fit: BoxFit.fill),
-          ),
-          Center(
-            child: Text('HolidayApp', style: theme.textTheme.headlineLarge),
-          ),
-        ],
+    return BlocListener<HolidaysBloc, HolidaysState>(
+      listener: (context, state) {
+        if (state.countryList != null && !state.isLoading) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  GlobalUIPage(onThemeChanged: widget.onThemeChanged),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset('assets/holiday.jpg', fit: BoxFit.fill),
+            ),
+            Center(
+              child: Text('HolidayApp', style: theme.textTheme.headlineLarge),
+            ),
+          ],
+        ),
       ),
     );
   }

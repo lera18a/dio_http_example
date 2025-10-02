@@ -1,0 +1,4 @@
+flutter_native_splash:
+  # Используем только background_image. Никаких цветов, никаких android_12.
+  # Только одна картинка для всех платформ.
+  background_image: "assets/holiday.jpg"

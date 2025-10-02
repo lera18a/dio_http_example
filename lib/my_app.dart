@@ -24,9 +24,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: darkTheme,
       theme: lightTheme,
       themeMode: _isLightTheme ? ThemeMode.light : ThemeMode.dark,
-      home: Scaffold(
-        body: Center(child: SplashScreen(onThemeChanged: toogleTheme)),
-      ),
+      home: SplashScreen(onThemeChanged: toogleTheme),
     );
   }
 }

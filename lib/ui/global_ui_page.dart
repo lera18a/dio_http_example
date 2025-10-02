@@ -16,9 +16,9 @@ class GlobalUIPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<HolidaysBloc>().add(LoadingCountryListEvent()),
-    );
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //   (_) => context.read<HolidaysBloc>().add(LoadingCountryListEvent()),
+    // );
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
