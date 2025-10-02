@@ -76,16 +76,17 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     }
     emit(state.copyWith(error: null, isLoading: true, stateHolidaysList: []));
     try {
-      final response = await apiClient.getHolidays(
+      final envelope = await apiClient.getHolidays(
         country: state.stateCountry!,
         year: state.stateYear!,
         month: state.stateMonth,
         type: state.stateType,
       );
+      final holidayList = envelope.response.holidays;
       emit(
         state.copyWith(
           error: null,
-          stateHolidaysList: response.response.holidays,
+          stateHolidaysList: holidayList,
           isLoading: false,
         ),
       );

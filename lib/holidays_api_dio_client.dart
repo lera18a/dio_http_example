@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_example/api_models/api_countries/api_meta_countries_response.dart';
 import 'package:dio_http_example/api_models/api_holidays/api_holiday_type/holiday_type.dart';
-import 'package:dio_http_example/api_models/api_holidays/api_meta_holidays_response.dart';
+import 'package:dio_http_example/api_models/api_holidays/api_holidays_envelope.dart';
 
 import 'package:dio_http_example/api_models/api_languages/api_meta_languages_response.dart';
 
@@ -16,7 +16,7 @@ class HolidaysApiDioClient {
     _dio = Dio(BaseOptions(baseUrl: host));
   }
 
-  Future<ApiMetaHolidayResponse> getHolidays({
+  Future<ApiHolidaysEnvelope> getHolidays({
     required String country,
     required int year,
     int? day,
@@ -40,7 +40,7 @@ class HolidaysApiDioClient {
       print('${response.statusCode}');
       print('${response.data}');
 
-      return ApiMetaHolidayResponse.fromJson(response.data);
+      return ApiHolidaysEnvelope.fromJson(response.data);
     } catch (e) {
       print(e);
       rethrow;
