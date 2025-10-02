@@ -35,28 +35,35 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     DropDownCountryEvent event,
     Emitter<HolidaysState> emit,
   ) {
-    emit(state.copyWith(stateCountry: event.selectedCountry));
+    emit(
+      state.copyWith(
+        stateCountry: event.selectedCountry,
+        stateHolidaysList: [],
+      ),
+    );
   }
 
   void _onDropDownYearEvent(
     DropDownYearEvent event,
     Emitter<HolidaysState> emit,
   ) {
-    emit(state.copyWith(stateYear: event.selectedYear));
+    emit(state.copyWith(stateYear: event.selectedYear, stateHolidaysList: []));
   }
 
   void _onDropDownMonthEvent(
     DropDownMonthEvent event,
     Emitter<HolidaysState> emit,
   ) {
-    emit(state.copyWith(stateMonth: event.selectedMonth));
+    emit(
+      state.copyWith(stateMonth: event.selectedMonth, stateHolidaysList: []),
+    );
   }
 
   void _onDropDownTypeEvent(
     DropDownTypeEvent event,
     Emitter<HolidaysState> emit,
   ) {
-    emit(state.copyWith(stateType: event.selectedType));
+    emit(state.copyWith(stateType: event.selectedType, stateHolidaysList: []));
   }
 
   Future<void> _onHolidaysButtonEvent(
@@ -83,7 +90,13 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(error: 'Праздники не загрузились (ошибка)'));
+      print('🚫 ОШИБКА ЗАГРУЗКИ% $e');
+      emit(
+        state.copyWith(
+          error: 'Праздники не загрузились (ошибка)',
+          isLoading: false,
+        ),
+      );
     }
   }
 

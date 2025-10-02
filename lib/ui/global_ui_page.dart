@@ -1,7 +1,7 @@
 import 'package:dio_http_example/bloc/bloc_holidays/holidays_bloc.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_country_page.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_month_page.dart';
-import 'package:dio_http_example/ui/ui_models/list_view_model.dart';
+import 'package:dio_http_example/ui/ui_models/holidays_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../api_models/api_holidays/api_holiday_type/holiday_type.dart';
@@ -28,7 +28,25 @@ class GlobalUIPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SafeArea(
-          child: BlocBuilder<HolidaysBloc, HolidaysState>(
+          child: BlocConsumer<HolidaysBloc, HolidaysState>(
+            listener: (context, state) {
+              if (state.error != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      state.error!,
+                      style: theme.textTheme.labelMedium,
+                    ),
+                  ),
+                );
+              }
+              if (state.stateHolidaysList.isNotEmpty) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HolidaysViewPage()),
+                );
+              }
+            },
             builder: (context, state) {
               if (state.isLoading) {
                 return Center(child: CircularProgressIndicator());
@@ -71,23 +89,6 @@ class GlobalUIPage extends StatelessWidget {
                       context.read<HolidaysBloc>().add(HolidaysButtonEvent());
                     },
                   ),
-                  SizedBox(height: 20),
-                  if (state.error != null)
-                    Text(state.error!, style: theme.textTheme.labelMedium),
-                  if (state.stateHolidaysList.isNotEmpty)
-                    Expanded(
-                      child: ListViewModel(
-                        holidaysList: state.stateHolidaysList,
-                      ),
-                    ),
-                  if (!state.isLoading &&
-                      state.stateHolidaysList.isEmpty &&
-                      state.stateCountry != null &&
-                      state.stateYear != null)
-                    Text(
-                      'Праздники не найдены',
-                      style: TextStyle(fontSize: 20, color: Colors.grey),
-                    ),
                 ],
               );
             },
