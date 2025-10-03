@@ -33,9 +33,11 @@ class GlobalUIPage extends StatelessWidget {
               if (state.error != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                      state.error!,
-                      style: theme.textTheme.labelMedium,
+                    content: Center(
+                      child: Text(
+                        state.error!,
+                        style: theme.textTheme.bodySmall,
+                      ),
                     ),
                   ),
                 );
@@ -52,6 +54,7 @@ class GlobalUIPage extends StatelessWidget {
                 return Center(child: CircularProgressIndicator());
               }
               return Column(
+                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   DropDownCountryPage(
@@ -84,6 +87,7 @@ class GlobalUIPage extends StatelessWidget {
                     },
                     typesList: HolidayType.values.toList(),
                   ),
+                  Spacer(),
                   HolidaysButton(
                     onPressed: () {
                       context.read<HolidaysBloc>().add(HolidaysButtonEvent());

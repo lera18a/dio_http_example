@@ -8,7 +8,7 @@ class HolidaysButton extends StatelessWidget {
     final theme = Theme.of(context);
     return ElevatedButton(
       style: ButtonStyle(
-        padding: WidgetStateProperty.all(EdgeInsets.all(20)),
+        padding: WidgetStateProperty.all(EdgeInsets.all(35)),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         ),
@@ -18,7 +18,7 @@ class HolidaysButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         'Вывести праздники',
-        style: theme.textTheme.titleSmall?.copyWith(
+        style: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onPrimary,
           fontWeight: FontWeight.w600,
         ),
