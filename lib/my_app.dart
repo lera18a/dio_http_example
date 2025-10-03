@@ -1,6 +1,8 @@
+import 'package:dio_http_example/bloc/bloc_theme/theme_bloc.dart';
 import 'package:dio_http_example/ui/splash_screen.dart';
 import 'package:dio_http_example/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -10,21 +12,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _isLightTheme = true;
-
-  void toogleTheme(bool isLight) {
-    setState(() {
-      _isLightTheme = isLight;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      darkTheme: darkTheme,
-      theme: lightTheme,
-      themeMode: _isLightTheme ? ThemeMode.light : ThemeMode.dark,
-      home: SplashScreen(onThemeChanged: toogleTheme),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          darkTheme: darkTheme,
+          theme: lightTheme,
+          themeMode: state.isLight ? ThemeMode.light : ThemeMode.dark,
+          home: SplashScreen(),
+        );
+      },
     );
   }
 }

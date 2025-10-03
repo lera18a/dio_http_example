@@ -1,10 +1,9 @@
+import 'package:dio_http_example/bloc/bloc_theme/theme_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SwitchModel extends StatefulWidget {
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  const SwitchModel({super.key, this.value = false, required this.onChanged});
+  const SwitchModel({super.key});
 
   @override
   State<SwitchModel> createState() => _SwitchModelState();
@@ -14,18 +13,24 @@ class _SwitchModelState extends State<SwitchModel> {
   bool isSwitched = false;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 80,
-      height: 40,
-      child: Transform.scale(
-        scale: 1.2,
-        child: Switch(
-          value: widget.value,
-          onChanged: widget.onChanged,
-          activeTrackColor: Colors.lightGreenAccent,
-          activeThumbColor: Colors.green,
-        ),
-      ),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return SizedBox(
+          width: 80,
+          height: 40,
+          child: Transform.scale(
+            scale: 1.2,
+            child: Switch(
+              value: state.isLight,
+              onChanged: (value) {
+                context.read<ThemeBloc>().add(ToggleThemeEvent());
+              },
+              activeTrackColor: Colors.lightGreenAccent,
+              activeThumbColor: Colors.green,
+            ),
+          ),
+        );
+      },
     );
   }
 }

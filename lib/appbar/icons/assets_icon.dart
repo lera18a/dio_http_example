@@ -2,8 +2,7 @@ import 'package:dio_http_example/ui/theme/theme_settings_page.dart';
 import 'package:flutter/material.dart';
 
 class AssetsIcon extends StatefulWidget {
-  const AssetsIcon({super.key, required this.onThemeChanged});
-  final ValueChanged<bool> onThemeChanged;
+  const AssetsIcon({super.key});
 
   @override
   State<AssetsIcon> createState() => _AssetsIconState();
@@ -16,12 +15,7 @@ class _AssetsIconState extends State<AssetsIcon> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => ThemeSettingsPage(
-              initialTheme: false,
-              onThemeChanged: widget.onThemeChanged,
-            ),
-          ),
+          MaterialPageRoute(builder: (context) => ThemeSettingsPage()),
         );
       },
       icon: Icon(Icons.settings),

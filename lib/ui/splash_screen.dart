@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key, required this.onThemeChanged});
-  final ValueChanged<bool> onThemeChanged;
+  const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -29,10 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (state.countryList != null && !state.isLoading) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  GlobalUIPage(onThemeChanged: widget.onThemeChanged),
-            ),
+            MaterialPageRoute(builder: (context) => GlobalUIPage()),
           );
         }
       },

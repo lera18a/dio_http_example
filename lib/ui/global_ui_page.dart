@@ -1,4 +1,5 @@
 import 'package:dio_http_example/bloc/bloc_holidays/holidays_bloc.dart';
+import 'package:dio_http_example/bloc/bloc_theme/theme_bloc.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_country_page.dart';
 import 'package:dio_http_example/ui/dropdowns/dropdown_month_page.dart';
 import 'package:dio_http_example/ui/ui_models/holidays_view_page.dart';
@@ -11,8 +12,7 @@ import '../appbar/icons/assets_icon.dart';
 import 'ui_models/holidays_button.dart';
 
 class GlobalUIPage extends StatelessWidget {
-  const GlobalUIPage({super.key, required this.onThemeChanged});
-  final ValueChanged<bool> onThemeChanged;
+  const GlobalUIPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,87 +20,92 @@ class GlobalUIPage extends StatelessWidget {
     //   (_) => context.read<HolidaysBloc>().add(LoadingCountryListEvent()),
     // );
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('API Holidays'),
-        actions: [AssetsIcon(onThemeChanged: onThemeChanged)],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SafeArea(
-          child: BlocConsumer<HolidaysBloc, HolidaysState>(
-            listener: (context, state) {
-              if (state.error != null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Center(
-                      child: Text(
-                        state.error!,
-                        style: theme.textTheme.bodySmall,
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: Text('API Holidays'), actions: [AssetsIcon()]),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SafeArea(
+              child: BlocConsumer<HolidaysBloc, HolidaysState>(
+                listener: (context, state) {
+                  if (state.error != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Center(
+                          child: Text(
+                            state.error!,
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              }
-              if (state.stateHolidaysList.isNotEmpty && !state.isLoading) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HolidaysViewPage()),
-                ).then((_) {
-                  context.read<HolidaysBloc>().add(ClearHolidaysEvent());
-                });
-              }
-            },
-            builder: (context, state) {
-              if (state.isLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  DropDownCountryPage(
-                    onCountrySelected: (String country) {
-                      context.read<HolidaysBloc>().add(
-                        DropDownCountryEvent(selectedCountry: country),
-                      );
-                    },
-                    countryList: state.countryList ?? [],
-                  ),
-                  DropDownYearPage(
-                    onYearSelected: (int isoCode) {
-                      context.read<HolidaysBloc>().add(
-                        DropDownYearEvent(selectedYear: isoCode),
-                      );
-                    },
-                  ),
-                  DropDownMonthPage(
-                    onMonthSelected: (int month) {
-                      context.read<HolidaysBloc>().add(
-                        DropDownMonthEvent(selectedMonth: month),
-                      );
-                    },
-                  ),
-                  DropDownTypePage(
-                    onTypeSelected: (HolidayType type) {
-                      context.read<HolidaysBloc>().add(
-                        DropDownTypeEvent(selectedType: type),
-                      );
-                    },
-                    typesList: HolidayType.values.toList(),
-                  ),
-                  Spacer(),
-                  HolidaysButton(
-                    onPressed: () {
-                      context.read<HolidaysBloc>().add(HolidaysButtonEvent());
-                    },
-                  ),
-                ],
-              );
-            },
+                    );
+                  }
+                  if (state.stateHolidaysList.isNotEmpty && !state.isLoading) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HolidaysViewPage(),
+                      ),
+                    ).then((_) {
+                      context.read<HolidaysBloc>().add(ClearHolidaysEvent());
+                    });
+                  }
+                },
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      DropDownCountryPage(
+                        onCountrySelected: (String country) {
+                          context.read<HolidaysBloc>().add(
+                            DropDownCountryEvent(selectedCountry: country),
+                          );
+                        },
+                        countryList: state.countryList ?? [],
+                      ),
+                      DropDownYearPage(
+                        onYearSelected: (int isoCode) {
+                          context.read<HolidaysBloc>().add(
+                            DropDownYearEvent(selectedYear: isoCode),
+                          );
+                        },
+                      ),
+                      DropDownMonthPage(
+                        onMonthSelected: (int month) {
+                          context.read<HolidaysBloc>().add(
+                            DropDownMonthEvent(selectedMonth: month),
+                          );
+                        },
+                      ),
+                      DropDownTypePage(
+                        onTypeSelected: (HolidayType type) {
+                          context.read<HolidaysBloc>().add(
+                            DropDownTypeEvent(selectedType: type),
+                          );
+                        },
+                        typesList: HolidayType.values.toList(),
+                      ),
+                      Spacer(),
+                      HolidaysButton(
+                        onPressed: () {
+                          context.read<HolidaysBloc>().add(
+                            HolidaysButtonEvent(),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
