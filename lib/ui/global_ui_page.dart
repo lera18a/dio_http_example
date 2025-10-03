@@ -42,11 +42,13 @@ class GlobalUIPage extends StatelessWidget {
                   ),
                 );
               }
-              if (state.stateHolidaysList.isNotEmpty) {
+              if (state.stateHolidaysList.isNotEmpty && !state.isLoading) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HolidaysViewPage()),
-                );
+                ).then((_) {
+                  context.read<HolidaysBloc>().add(ClearHolidaysEvent());
+                });
               }
             },
             builder: (context, state) {
