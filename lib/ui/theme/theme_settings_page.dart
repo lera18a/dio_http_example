@@ -37,9 +37,7 @@ class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
                 children: [
                   Text(
                     'Темная тема',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(fontSize: 16),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   SwitchModel(
                     value: isSwitched,
@@ -52,9 +50,7 @@ class _ThemeSettingsPageState extends State<ThemeSettingsPage> {
                   ),
                   Text(
                     'Светлая тема',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(fontSize: 16),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),

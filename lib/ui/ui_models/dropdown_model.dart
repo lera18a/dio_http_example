@@ -29,17 +29,20 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
           popupProps: PopupProps.modalBottomSheet(
             showSearchBox: true,
             itemBuilder: (context, item, isDisabled, isSelected) => Padding(
-              padding: EdgeInsetsGeometry.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 widget.convert(item),
-                style: theme.textTheme.bodyMedium,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: isSelected
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.onSurface,
+                ),
               ),
             ),
             searchFieldProps: TextFieldProps(
-              style: theme.textTheme.bodyMedium,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurface,
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 12,
@@ -48,10 +51,13 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
                 labelStyle: theme.textTheme.bodyMedium,
                 labelText: 'Поиск',
                 hintText: 'Начните вводить...',
-                hintStyle: theme.textTheme.labelMedium,
+                hintStyle: theme.textTheme.labelMedium?.copyWith(
+                  color: theme.colorScheme.onSurface,
+                ),
               ),
             ),
             modalBottomSheetProps: ModalBottomSheetProps(
+              backgroundColor: theme.scaffoldBackgroundColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
@@ -62,7 +68,9 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
           itemAsString: widget.convert,
           selectedItem: selected,
           decoratorProps: DropDownDecoratorProps(
-            baseStyle: theme.textTheme.bodyMedium,
+            baseStyle: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface,
+            ),
             decoration: InputDecoration(
               hintText: widget.text,
               hintStyle:
@@ -71,6 +79,20 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
                   ) ??
                   const TextStyle(fontSize: 14, color: Colors.grey),
               border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: theme.colorScheme.primary,
+                  width: 2,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: theme.colorScheme.outline,
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
                   color: theme.colorScheme.primary,

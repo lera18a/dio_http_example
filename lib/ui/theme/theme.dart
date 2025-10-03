@@ -14,6 +14,18 @@ import 'package:google_fonts/google_fonts.dart';
 // Они должны гармонировать между собой.
 ///------------------------
 
+class AppSizes {
+  static const double fontSizeHeadline = 30;
+  static const double fontSizeBodyLarge = 24;
+  static const double fontSizeBodyMedium = 20;
+  static const double fontSizeBodySmall = 14;
+  static const double fontSizeLabel = 14;
+  static const double fontSizeTitle = 16;
+  static const double borderRadius = 20;
+  static const double buttonPaddingHorizontal = 24;
+  static const double buttonPaddingVertical = 12;
+}
+
 final primaryColorLight = Colors.green[700];
 final backgroundColorLight = Colors.green[50];
 const textColorLight = Colors.black87;
@@ -28,6 +40,8 @@ final scaffoldBackgroundColorDark = Color(0xFF121212);
 const errorColorDark = Colors.redAccent;
 const hintColorDark = Colors.white70;
 
+final _baseTextTheme = GoogleFonts.robotoTextTheme();
+
 final lightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: primaryColorLight,
@@ -37,41 +51,41 @@ final lightTheme = ThemeData(
     backgroundColor: backgroundColorLight,
     titleTextStyle: TextStyle(
       color: textColorLight,
-      fontSize: 20,
+      fontSize: AppSizes.fontSizeBodyMedium,
       fontWeight: FontWeight.bold,
     ),
-    iconTheme: IconThemeData(color: textColorDark),
+    iconTheme: IconThemeData(color: textColorLight),
   ),
   textTheme: GoogleFonts.robotoTextTheme().copyWith(
     bodyLarge: TextStyle(
       color: primaryColorLight,
-      fontSize: 24,
+      fontSize: AppSizes.fontSizeBodyLarge,
       fontWeight: FontWeight.bold,
     ),
     bodyMedium: TextStyle(
       color: textColorLight,
-      fontSize: 20,
+      fontSize: AppSizes.fontSizeBodyMedium,
       fontWeight: FontWeight.normal,
     ),
     //настройка стиля hint
     labelMedium: TextStyle(
       color: textColorLight,
-      fontSize: 14,
+      fontSize: AppSizes.fontSizeBodySmall,
       fontWeight: FontWeight.normal,
     ),
     //настройка стиля !ошибки!
     bodySmall: TextStyle(
       color: errorColorLight,
-      fontSize: 14,
+      fontSize: AppSizes.fontSizeBodySmall,
       fontWeight: FontWeight.w500,
     ),
     headlineLarge: TextStyle(
-      fontSize: 30,
+      fontSize: AppSizes.fontSizeHeadline,
       fontWeight: FontWeight.bold,
       color: textColorLight,
     ),
     titleSmall: TextStyle(
-      fontSize: 16,
+      fontSize: AppSizes.fontSizeTitle,
       fontWeight: FontWeight.w600,
       color: textColorLight,
     ),
@@ -82,9 +96,10 @@ final lightTheme = ThemeData(
       backgroundColor: primaryColorLight,
       foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      //спроси зачем?
-      //  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      //и зачем вообще colorSheme
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSizes.buttonPaddingHorizontal,
+        vertical: AppSizes.buttonPaddingVertical,
+      ),
     ),
   ),
   colorScheme: ColorScheme.light(
@@ -95,6 +110,7 @@ final lightTheme = ThemeData(
     error: errorColorLight,
     surface: Colors.white,
     onSurface: textColorLight,
+    primaryContainer: Colors.green[100],
   ),
 );
 
@@ -105,42 +121,42 @@ final darkTheme = ThemeData(
   hintColor: hintColorDark,
   appBarTheme: AppBarTheme(
     backgroundColor: backgroundColorDark,
-    foregroundColor: Colors.black,
+    foregroundColor: textColorDark,
     titleTextStyle: TextStyle(
       color: Colors.white,
-      fontSize: 20,
+      fontSize: AppSizes.fontSizeBodyMedium,
       fontWeight: FontWeight.bold,
     ),
   ),
-  textTheme: GoogleFonts.robotoTextTheme().copyWith(
+  textTheme: _baseTextTheme.copyWith(
     bodyLarge: TextStyle(
       color: primaryColorDark,
-      fontSize: 24,
+      fontSize: AppSizes.fontSizeBodyLarge,
       fontWeight: FontWeight.bold,
     ),
     bodyMedium: TextStyle(
       color: textColorDark,
-      fontSize: 16,
+      fontSize: AppSizes.fontSizeBodyMedium,
       fontWeight: FontWeight.normal,
     ),
     //настройка стиля hint
     labelMedium: TextStyle(
       color: textColorDark,
-      fontSize: 14,
+      fontSize: AppSizes.fontSizeLabel,
       fontWeight: FontWeight.normal,
     ), //настройка стиля !ошибки!
     bodySmall: TextStyle(
       color: errorColorDark,
-      fontSize: 16,
+      fontSize: AppSizes.fontSizeBodySmall,
       fontWeight: FontWeight.w500,
     ),
     headlineLarge: TextStyle(
-      fontSize: 30,
+      fontSize: AppSizes.fontSizeHeadline,
       fontWeight: FontWeight.bold,
       color: textColorDark,
     ),
     titleSmall: TextStyle(
-      fontSize: 16,
+      fontSize: AppSizes.fontSizeTitle,
       fontWeight: FontWeight.w600,
       color: textColorDark,
     ),
@@ -150,10 +166,16 @@ final darkTheme = ThemeData(
       backgroundColor: primaryColorDark,
       foregroundColor: Colors.black,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.circular(20),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadius),
+      ),
+      padding: EdgeInsets.symmetric(
+        // ← Добавляем padding
+        horizontal: AppSizes.buttonPaddingHorizontal,
+        vertical: AppSizes.buttonPaddingVertical,
       ),
     ),
   ),
+
   colorScheme: ColorScheme.dark(
     primary: primaryColorDark!,
     onPrimary: Colors.black87,
@@ -162,5 +184,6 @@ final darkTheme = ThemeData(
     error: errorColorDark,
     surface: Color(0xFF1E1E1E),
     onSurface: textColorDark,
+    primaryContainer: Colors.green[900],
   ),
 );
