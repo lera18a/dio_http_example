@@ -16,11 +16,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     FlutterNativeSplash.remove();
-    context.read<HolidaysBloc>().add(LoadingCountryListEvent());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => context.read<HolidaysBloc>().add(LoadingCountryListEvent()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocListener<HolidaysBloc, HolidaysState>(
       listener: (context, state) {
         if (state.countryList != null && !state.isLoading) {
@@ -40,11 +43,9 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Image.asset('assets/holiday.jpg', fit: BoxFit.fill),
             ),
             Center(
-              child: const Text(
+              child: Text(
                 'HolidayApp',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+                style: theme.textTheme.headlineLarge?.copyWith(
                   color: Colors.white,
                 ),
               ),
