@@ -25,6 +25,7 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     on<DropDownTypeEvent>(_onDropDownTypeEvent);
     on<HolidaysButtonEvent>(_onHolidaysButtonEvent);
     on<LoadingCountryListEvent>(_onLoadingCountryListEvent);
+    on<ClearHolidaysEvent>(_onClearHolidaysEvent);
   }
 
   HolidaysApiDioClient apiClient = HolidaysApiDioClient(
@@ -36,9 +37,15 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     Emitter<HolidaysState> emit,
   ) {
     emit(
-      state.copyWith(
+      HolidaysState(
+        stateMonth: state.stateMonth,
+        stateType: state.stateType,
+        stateYear: state.stateYear,
         stateCountry: event.selectedCountry,
         stateHolidaysList: [],
+        isLoading: false,
+        countryList: state.countryList,
+        error: null,
       ),
     );
   }
@@ -47,7 +54,18 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     DropDownYearEvent event,
     Emitter<HolidaysState> emit,
   ) {
-    emit(state.copyWith(stateYear: event.selectedYear, stateHolidaysList: []));
+    emit(
+      HolidaysState(
+        stateMonth: state.stateMonth,
+        stateType: state.stateType,
+        stateYear: event.selectedYear,
+        stateCountry: state.stateCountry,
+        stateHolidaysList: [],
+        isLoading: false,
+        countryList: state.countryList,
+        error: state.error,
+      ),
+    );
   }
 
   void _onDropDownMonthEvent(
@@ -55,7 +73,16 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     Emitter<HolidaysState> emit,
   ) {
     emit(
-      state.copyWith(stateMonth: event.selectedMonth, stateHolidaysList: []),
+      HolidaysState(
+        stateMonth: event.selectedMonth,
+        stateType: state.stateType,
+        stateYear: state.stateYear,
+        stateCountry: state.stateCountry,
+        stateHolidaysList: [],
+        isLoading: false,
+        countryList: state.countryList,
+        error: state.error,
+      ),
     );
   }
 
@@ -63,7 +90,7 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     DropDownTypeEvent event,
     Emitter<HolidaysState> emit,
   ) {
-    emit(state.copyWith(stateType: event.selectedType, stateHolidaysList: []));
+    emit(HolidaysState(stateType: event.selectedType, stateHolidaysList: []));
   }
 
   Future<void> _onHolidaysButtonEvent(
@@ -71,10 +98,32 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     Emitter<HolidaysState> emit,
   ) async {
     if (state.stateCountry == null || state.stateYear == null) {
-      emit(state.copyWith(error: 'Выберите страну и год'));
+      emit(
+        HolidaysState(
+          stateMonth: state.stateMonth,
+          stateType: state.stateType,
+          stateYear: state.stateYear,
+          stateCountry: state.stateCountry,
+          stateHolidaysList: [],
+          isLoading: false,
+          countryList: state.countryList,
+          error: 'Выберите страну и год',
+        ),
+      );
       return;
     }
-    emit(state.copyWith(error: null, isLoading: true, stateHolidaysList: []));
+    emit(
+      HolidaysState(
+        stateMonth: state.stateMonth,
+        stateType: state.stateType,
+        stateYear: state.stateYear,
+        stateCountry: state.stateCountry,
+        stateHolidaysList: [],
+        isLoading: true,
+        countryList: state.countryList,
+        error: null,
+      ),
+    );
     try {
       final envelope = await apiClient.getHolidays(
         country: state.stateCountry!,
@@ -84,16 +133,27 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
       );
       final holidayList = envelope.response.holidays;
       emit(
-        state.copyWith(
-          error: null,
+        HolidaysState(
+          stateMonth: state.stateMonth,
+          stateType: state.stateType,
+          stateYear: state.stateYear,
+          stateCountry: state.stateCountry,
+          countryList: state.countryList,
           stateHolidaysList: holidayList,
           isLoading: false,
+          error: null,
         ),
       );
     } catch (e) {
       print('🚫 ОШИБКА ЗАГРУЗКИ% $e');
       emit(
-        state.copyWith(
+        HolidaysState(
+          stateMonth: state.stateMonth,
+          stateType: state.stateType,
+          stateYear: state.stateYear,
+          stateCountry: state.stateCountry,
+          countryList: state.countryList,
+          stateHolidaysList: state.stateHolidaysList,
           error: 'Праздники не загрузились (ошибка)',
           isLoading: false,
         ),
@@ -105,23 +165,64 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     LoadingCountryListEvent event,
     Emitter<HolidaysState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true));
+    emit(
+      HolidaysState(
+        stateMonth: state.stateMonth,
+        stateType: state.stateType,
+        stateYear: state.stateYear,
+        stateCountry: state.stateCountry,
+        countryList: state.countryList,
+        stateHolidaysList: state.stateHolidaysList,
+        error: null,
+        isLoading: true,
+      ),
+    );
     try {
       final response = await apiClient.getCountries();
       print('✅ Загружено ${response.response.countries.length} стран');
       emit(
-        state.copyWith(
+        HolidaysState(
+          stateMonth: state.stateMonth,
+          stateType: state.stateType,
+          stateYear: state.stateYear,
+          stateCountry: state.stateCountry,
           countryList: response.response.countries,
+          stateHolidaysList: state.stateHolidaysList,
+          error: null,
           isLoading: false,
         ),
       );
     } catch (e) {
       emit(
-        state.copyWith(
+        HolidaysState(
+          stateMonth: state.stateMonth,
+          stateType: state.stateType,
+          stateYear: state.stateYear,
+          stateCountry: state.stateCountry,
+          countryList: state.countryList,
+          stateHolidaysList: state.stateHolidaysList,
           isLoading: false,
           error: 'Страны не загрузились (ошибка)',
         ),
       );
     }
+  }
+
+  void _onClearHolidaysEvent(
+    ClearHolidaysEvent event,
+    Emitter<HolidaysState> emit,
+  ) {
+    emit(
+      HolidaysState(
+        stateMonth: null,
+        stateType: null,
+        stateYear: null,
+        stateCountry: null,
+        stateHolidaysList: [],
+        isLoading: false,
+        countryList: state.countryList,
+        error: null,
+      ),
+    );
   }
 }

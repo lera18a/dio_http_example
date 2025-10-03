@@ -29,3 +29,5 @@ class DropDownYearEvent extends HolidaysEvent {
 class HolidaysButtonEvent extends HolidaysEvent {}
 
 class LoadingCountryListEvent extends HolidaysEvent {}
+
+class ClearHolidaysEvent extends HolidaysEvent {}
