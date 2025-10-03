@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../list.dart';
@@ -15,11 +16,14 @@ class DropDownMonthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
-        const Text(
+        Text(
           'Выберите месяц:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         SizedBox(height: 20),
         DropdownModel(
@@ -30,7 +34,6 @@ class DropDownMonthPage extends StatelessWidget {
             onMonthSelected(month);
           },
         ),
-        SizedBox(height: 20),
       ],
     );
   }

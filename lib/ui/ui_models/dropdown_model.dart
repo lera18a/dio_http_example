@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 class DropdownModel<T> extends StatefulWidget {
@@ -24,46 +25,74 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
     final theme = Theme.of(context);
     return Column(
       children: [
-        Column(
-          children: [
-            DropdownButton<T>(
-              isExpanded: true,
-              value: selected,
-              hint: Text(
-                widget.text,
-                style:
-                    theme.textTheme.labelMedium?.copyWith(
-                      color: theme.hintColor,
-                    ) ??
-                    const TextStyle(fontSize: 14, color: Colors.grey),
+        DropdownSearch<T>(
+          popupProps: PopupProps.modalBottomSheet(
+            showSearchBox: true,
+            itemBuilder: (context, item, isDisabled, isSelected) => Padding(
+              padding: EdgeInsetsGeometry.symmetric(
+                horizontal: 16,
+                vertical: 8,
               ),
-              icon: const Icon(Icons.arrow_drop_down),
-              iconSize: 30,
-              elevation: 8,
-              //стиль из темы
-              style: theme.textTheme.bodyMedium,
-              // акцентный цвет темы
-              underline: Container(height: 2, color: theme.colorScheme.primary),
-              onChanged: (T? newValue) {
-                setState(() {
-                  selected = newValue;
-                  if (newValue != null) widget.onSelected(newValue);
-                });
-              },
-              items: widget.list.map<DropdownMenuItem<T>>((T country) {
-                return DropdownMenuItem<T>(
-                  value: country,
-                  child: Text(widget.convert(country)),
-                );
-              }).toList(),
+              child: Text(
+                widget.convert(item),
+                style: theme.textTheme.bodyMedium,
+              ),
             ),
-            const SizedBox(height: 30),
-            if (selected != null)
-              Text(
-                'Вы выбрали: ${widget.convert(selected!)}',
-                style: theme.textTheme.titleSmall,
+            searchFieldProps: TextFieldProps(
+              style: theme.textTheme.bodyMedium,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
+                labelStyle: theme.textTheme.bodyMedium,
+                labelText: 'Поиск',
+                hintText: 'Начните вводить...',
+                hintStyle: theme.textTheme.labelMedium,
               ),
-          ],
+            ),
+            modalBottomSheetProps: ModalBottomSheetProps(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+            ),
+          ),
+          compareFn: (T? a, T? b) => a == b,
+          items: (filter, infiniteScrollProps) => widget.list,
+          itemAsString: widget.convert,
+          selectedItem: selected,
+          decoratorProps: DropDownDecoratorProps(
+            baseStyle: theme.textTheme.bodyMedium,
+            decoration: InputDecoration(
+              hintText: widget.text,
+              hintStyle:
+                  theme.textTheme.labelMedium?.copyWith(
+                    color: theme.hintColor,
+                  ) ??
+                  const TextStyle(fontSize: 14, color: Colors.grey),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: theme.colorScheme.primary,
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
+          onChanged: (T? newValue) {
+            setState(() {
+              selected = newValue;
+              if (newValue != null) widget.onSelected(newValue);
+            });
+          },
+        ),
+
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 20),
+          child: Text(
+            selected != null ? 'Вы выбрали: ${widget.convert(selected!)}' : '',
+            style: theme.textTheme.titleSmall,
+          ),
         ),
       ],
     );

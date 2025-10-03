@@ -14,11 +14,14 @@ class DropDownTypePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
-        const Text(
+        Text(
           'Выберите тип праздика:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         SizedBox(height: 20),
         if (typesList == null)
@@ -45,7 +48,6 @@ class DropDownTypePage extends StatelessWidget {
               onTypeSelected(type);
             },
           ),
-        SizedBox(height: 20),
       ],
     );
   }
