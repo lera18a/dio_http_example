@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   google_fonts: ^6.3.2
   flutter_native_splash: ^2.4.6
+  dropdown_search: ^6.0.2
 
 dev_dependencies:
   flutter_test:
