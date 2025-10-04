@@ -48,7 +48,9 @@ class GlobalUIPage extends StatelessWidget {
                         builder: (context) => HolidaysViewPage(),
                       ),
                     ).then((_) {
-                      context.read<HolidaysBloc>().add(ClearHolidaysEvent());
+                      if (context.mounted) {
+                        context.read<HolidaysBloc>().add(ClearHolidaysEvent());
+                      }
                     });
                   }
                 },
