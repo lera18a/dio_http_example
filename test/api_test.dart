@@ -1,12 +1,13 @@
-import 'package:dio_http_example/api_key.dart';
+import 'package:dio_http_example/enviroment_variables.dart';
 import 'package:dio_http_example/api_models/api_holidays/api_holiday_type/holiday_type.dart';
 import 'package:dio_http_example/holidays_api_dio_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-final String host = 'https://calendarific.com/api/v2';
-
 void main() {
-  final apiClient = HolidaysApiDioClient(apiKey: apiKey, host: host);
+  final apiClient = HolidaysApiDioClient(
+    apiKey: EnviromentVariables.apiKey,
+    host: EnviromentVariables.apiHost,
+  );
 
   group('Languages group', () {
     test('Get languages', () async {

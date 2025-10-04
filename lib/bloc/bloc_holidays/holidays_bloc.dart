@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import '../../api_key.dart';
+import '../../enviroment_variables.dart';
 import '../../api_models/api_countries/api_country.dart';
 import '../../api_models/api_holidays/api_holiday.dart';
 import '../../api_models/api_holidays/api_holiday_type/holiday_type.dart';
@@ -29,10 +29,12 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     add(LoadingCountryListEvent());
   }
 
+  //DI
   HolidaysApiDioClient apiClient = HolidaysApiDioClient(
-    apiKey: apiKey,
-    host: 'https://calendarific.com/api/v2',
+    apiKey: EnviromentVariables.apiKey,
+    host: EnviromentVariables.apiHost,
   );
+
   void _onDropDownCountryEvent(
     DropDownCountryEvent event,
     Emitter<HolidaysState> emit,

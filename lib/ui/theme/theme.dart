@@ -26,6 +26,11 @@ class AppSizes {
   static const double buttonPaddingVertical = 12;
 }
 
+//пример использования Enviroment в дебаг моде или в продакшн
+// final primaryColorLight = EnviromentVariables.isDebug
+//     ? Colors.green[700]
+//     : Colors.amber;
+
 final primaryColorLight = Colors.green[700];
 final backgroundColorLight = Colors.green[50];
 const textColorLight = Colors.black87;
