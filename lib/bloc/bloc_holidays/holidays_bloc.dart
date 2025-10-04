@@ -26,6 +26,7 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     on<HolidaysButtonEvent>(_onHolidaysButtonEvent);
     on<LoadingCountryListEvent>(_onLoadingCountryListEvent);
     on<ClearHolidaysEvent>(_onClearHolidaysEvent);
+    add(LoadingCountryListEvent());
   }
 
   HolidaysApiDioClient apiClient = HolidaysApiDioClient(

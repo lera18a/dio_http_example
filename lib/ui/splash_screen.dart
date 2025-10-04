@@ -16,9 +16,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     FlutterNativeSplash.remove();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<HolidaysBloc>().add(LoadingCountryListEvent()),
-    );
   }
 
   @override
