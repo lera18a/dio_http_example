@@ -13,7 +13,9 @@ import 'ui_models/holidays_button.dart';
 
 class GlobalUIPage extends StatelessWidget {
   const GlobalUIPage({super.key});
-
+  static const searchButtomKey = 'search_buttom';
+  static const countryDropDownKey = 'country_drop_down';
+  static const yearDropDownKey = 'year_drop_down';
   @override
   Widget build(BuildContext context) {
     // WidgetsBinding.instance.addPostFrameCallback(
@@ -63,6 +65,7 @@ class GlobalUIPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       DropDownCountryPage(
+                        key: Key(countryDropDownKey),
                         onCountrySelected: (String country) {
                           context.read<HolidaysBloc>().add(
                             DropDownCountryEvent(selectedCountry: country),
@@ -71,6 +74,7 @@ class GlobalUIPage extends StatelessWidget {
                         countryList: state.countryList ?? [],
                       ),
                       DropDownYearPage(
+                        key: Key(yearDropDownKey),
                         onYearSelected: (int isoCode) {
                           context.read<HolidaysBloc>().add(
                             DropDownYearEvent(selectedYear: isoCode),
@@ -94,6 +98,7 @@ class GlobalUIPage extends StatelessWidget {
                       ),
                       Spacer(),
                       HolidaysButton(
+                        key: Key(searchButtomKey),
                         onPressed: () {
                           context.read<HolidaysBloc>().add(
                             HolidaysButtonEvent(),
