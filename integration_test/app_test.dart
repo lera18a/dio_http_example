@@ -1,5 +1,5 @@
 import 'package:dio_http_example/my_app.dart';
-import 'package:dio_http_example/ui/global_ui_page.dart';
+import 'package:dio_http_example/ui/ui_pages/global_ui_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';

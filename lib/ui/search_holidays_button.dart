@@ -1,7 +1,8 @@
+import 'package:dio_http_example/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 
-class HolidaysButton extends StatelessWidget {
-  const HolidaysButton({super.key, required this.onPressed});
+class SearchHolidaysButton extends StatelessWidget {
+  const SearchHolidaysButton({super.key, required this.onPressed});
   final void Function() onPressed;
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class HolidaysButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Text(
-        'Вывести праздники',
+        context.i18n.searchHolidays,
         style: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onPrimary,
           fontWeight: FontWeight.w600,

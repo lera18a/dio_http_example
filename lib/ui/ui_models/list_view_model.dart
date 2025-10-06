@@ -1,4 +1,4 @@
-import 'package:dio_http_example/ui/ui_holiday_page.dart';
+import 'package:dio_http_example/ui/ui_pages/ui_holiday_page.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../api_models/api_holidays/api_holiday.dart';

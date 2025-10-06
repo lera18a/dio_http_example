@@ -1,4 +1,4 @@
-import 'package:dio_http_example/ui/theme/theme_settings_page.dart';
+import 'package:dio_http_example/ui/ui_pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
 class AssetsIcon extends StatefulWidget {
@@ -15,7 +15,7 @@ class _AssetsIconState extends State<AssetsIcon> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ThemeSettingsPage()),
+          MaterialPageRoute(builder: (context) => SettingsPage()),
         );
       },
       icon: Icon(Icons.settings),

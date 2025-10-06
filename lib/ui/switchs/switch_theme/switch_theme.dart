@@ -2,14 +2,14 @@ import 'package:dio_http_example/bloc/bloc_theme/theme_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SwitchModel extends StatefulWidget {
-  const SwitchModel({super.key});
+class SwitchThemeSettings extends StatefulWidget {
+  const SwitchThemeSettings({super.key});
 
   @override
-  State<SwitchModel> createState() => _SwitchModelState();
+  State<SwitchThemeSettings> createState() => _SwitchThemeSettingsState();
 }
 
-class _SwitchModelState extends State<SwitchModel> {
+class _SwitchThemeSettingsState extends State<SwitchThemeSettings> {
   bool isSwitched = false;
   @override
   Widget build(BuildContext context) {
