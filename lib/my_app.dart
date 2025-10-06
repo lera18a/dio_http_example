@@ -1,9 +1,12 @@
 import 'package:dio_http_example/bloc/bloc_holidays/holidays_bloc.dart';
+import 'package:dio_http_example/bloc/bloc_language/language_bloc.dart';
 import 'package:dio_http_example/bloc/bloc_theme/theme_bloc.dart';
-import 'package:dio_http_example/ui/splash_screen.dart';
+import 'package:dio_http_example/extensions/build_context_extensions.dart';
+import 'package:dio_http_example/ui/ui_pages/splash_screen_page.dart';
 import 'package:dio_http_example/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'l10n/app_localizations.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -19,14 +22,23 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (context) => HolidaysBloc()),
         BlocProvider(create: (context) => ThemeBloc()),
+        BlocProvider(create: (context) => LanguageBloc()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          return MaterialApp(
-            darkTheme: darkTheme,
-            theme: lightTheme,
-            themeMode: state.isLight ? ThemeMode.light : ThemeMode.dark,
-            home: SplashScreen(),
+        builder: (context, themState) {
+          return BlocBuilder<LanguageBloc, LanguageState>(
+            builder: (context, languageState) {
+              return MaterialApp(
+                locale: languageState.local,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                darkTheme: darkTheme,
+                theme: lightTheme,
+                themeMode: themState.isLight ? ThemeMode.light : ThemeMode.dark,
+                onGenerateTitle: (context) => context.i18n.appTitle,
+                home: SplashScreen(),
+              );
+            },
           );
         },
       ),
