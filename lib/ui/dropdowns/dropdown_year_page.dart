@@ -1,5 +1,5 @@
+import 'package:dio_http_example/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../list.dart';
 import '../ui_models/dropdown_model.dart';
@@ -20,14 +20,14 @@ class DropDownYearPage extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Выберите год:',
+          context.i18n.selectYear,
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         SizedBox(height: 20),
         DropdownModel(
-          text: 'Выберите год',
+          text: context.i18n.selectYear,
           convert: (e) => e.toString(),
           list: years,
           onSelected: (int year) {

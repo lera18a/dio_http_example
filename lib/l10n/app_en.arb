@@ -1,0 +1,99 @@
+{
+    "@@locale": "en",
+    "selectCountry": "Select country",
+    "@selectCountry": {
+        "description": ""
+    },
+    "selectYear": "Select year",
+    "@selectYear": {
+        "description": ""
+    },
+    "selectMonth": "Select month",
+    "@selectMonth": {
+        "description": ""
+    },
+    "selectHolidaysTipe": "Select holidays tipe",
+    "@selectHolidaysTipe": {
+        "description": ""
+    },
+    "searchHolidays": "Search holidays",
+    "@searchHolidays": {
+        "description": ""
+    },
+    "themeSettings": "Theme settings",
+    "@themeSettings": {
+        "description": ""
+    },
+    "darkTheme": "Dark theme",
+    "@darkTheme": {
+        "description": ""
+    },
+    "lightTheme": "Light theme",
+    "@lightTheme": {
+        "description": ""
+    },
+    "search": "Search",
+    "@search": {
+        "description": ""
+    },
+    "nationalDate": "National date",
+    "@nationalDate": {
+        "description": ""
+    },
+    "localHoliday": "Local holiday",
+    "@localHoliday": {
+        "description": ""
+    },
+    "religiousHoliday": "Religious holiday",
+    "@religiousHoliday": {
+        "description": ""
+    },
+    "observance": "Observance",
+    "@observance": {
+        "description": ""
+    },
+    "appTitle": "Api Holidays",
+    "@appTitle": {
+        "description": ""
+    },
+    "startTyping": "Start typing...",
+    "@startTyping": {
+        "description": ""
+    },
+    "youChose": "You chose:",
+    "@youChose": {
+        "description": ""
+    },
+    "loading": "Loading...",
+    "@loading": {
+        "description": ""
+    },
+    "loadingTypes": "Loading types...",
+    "@loadingTypes": {
+        "description": ""
+    },
+    "typesNotFound": "Types not found",
+    "@typesNotFound": {
+        "description": ""
+    },
+    "holidayViewTitle": "Holidays View",
+    "@holidayViewTitle": {
+        "description": ""
+    },
+    "holidaysNotFound": "Holidays not found",
+    "@holidaysNotFound": {
+        "description": ""
+    },
+    "startTitle": "Holidays App",
+    "@startTitle": {
+        "description": ""
+    },
+    "englishLanguage": "English",
+    "@englishLanguage": {
+        "description": ""
+    },
+    "russianLanguage": "Русский",
+    "@russianLanguage": {
+        "description": ""
+    }
+}

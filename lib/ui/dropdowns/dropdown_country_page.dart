@@ -1,4 +1,5 @@
 import 'package:dio_http_example/api_models/api_countries/api_country.dart';
+import 'package:dio_http_example/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../ui_models/dropdown_model.dart';
@@ -18,14 +19,16 @@ class DropDownCountryPage extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Выберите страну:',
+          context.i18n.selectCountry,
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 20),
         DropdownModel(
-          text: countryList.isEmpty ? 'Загрузка' : 'Выберите страну',
+          text: countryList.isEmpty
+              ? context.i18n.loading
+              : context.i18n.selectCountry,
           list: countryList,
           convert: (e) => "${e.flagUnicode} ${e.countryName}",
           onSelected: (ApiCountry country) {

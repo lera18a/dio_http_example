@@ -1,3 +1,4 @@
+import 'package:dio_http_example/extensions/build_context_extensions.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
@@ -49,8 +50,8 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
                   vertical: 12,
                 ),
                 labelStyle: theme.textTheme.bodyMedium,
-                labelText: 'Поиск',
-                hintText: 'Начните вводить...',
+                labelText: context.i18n.search,
+                hintText: context.i18n.startTyping,
                 hintStyle: theme.textTheme.labelMedium?.copyWith(
                   color: theme.colorScheme.onSurface,
                 ),
@@ -112,7 +113,9 @@ class _DropdownModelState<T> extends State<DropdownModel<T>> {
         Padding(
           padding: const EdgeInsets.only(top: 8.0, bottom: 20),
           child: Text(
-            selected != null ? 'Вы выбрали: ${widget.convert(selected!)}' : '',
+            selected != null
+                ? ' ${context.i18n.youChose} ${widget.convert(selected!)}'
+                : '',
             style: theme.textTheme.titleSmall,
           ),
         ),

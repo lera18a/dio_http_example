@@ -1,0 +1,22 @@
+{
+    "@@locale": "ru",
+    "selectCountry": "Выберите страну",
+    "selectYear": "Выберите год",
+    "selectMonth": "Выберите месяц",
+    "selectHolidaysTipe": "Выберите тип праздника",
+    "searchHolidays": "Найти праздники",
+    "themeSettings": "Настройка темы",
+    "darkTheme": "Темная тема",
+    "lightTheme": "Светлая тема",
+    "search": "Поиск",
+    "nationalDate": "Национальные",
+    "localHoliday": "Местные",
+    "religiousHoliday": "Религиозные",
+    "observance": "Памятные даты",
+    "startTyping": "Начните вводить...",
+    "youChose": "Вы выбрали:",
+    "loading": "Загрузка...",
+    "loadingTypes": "Загрузка типов...",
+    "typesNotFound": "Типы не найдены",
+    "holidaysNotFound": " Праздники не найдены"
+}
