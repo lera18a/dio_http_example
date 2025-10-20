@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import '../../enviroment_variables.dart';
 import '../../api_models/api_countries/api_country.dart';
 import '../../api_models/api_holidays/api_holiday.dart';
 import '../../api_models/api_holidays/api_holiday_type/holiday_type.dart';
@@ -9,7 +8,8 @@ part 'holidays_event.dart';
 part 'holidays_state.dart';
 
 class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
-  HolidaysBloc()
+  final HolidaysApiDioClient apiClient;
+  HolidaysBloc({required this.apiClient})
     : super(
         HolidaysState(
           stateCountry: null,
@@ -30,10 +30,10 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
   }
 
   //DI
-  HolidaysApiDioClient apiClient = HolidaysApiDioClient(
-    apiKey: EnviromentVariables.apiKey,
-    host: EnviromentVariables.apiHost,
-  );
+  // HolidaysApiDioClient apiClient = HolidaysApiDioClient(
+  //   apiKey: EnviromentVariables.apiKey,
+  //   host: EnviromentVariables.apiHost,
+  // );
 
   void _onDropDownCountryEvent(
     DropDownCountryEvent event,

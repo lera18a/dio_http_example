@@ -9,6 +9,7 @@ import 'package:dio_http_example/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'l10n/app_localizations.dart';
 
 class MyApp extends StatefulWidget {
@@ -33,8 +34,16 @@ class _MyAppState extends State<MyApp> {
             create: (context) =>
                 HolidaysBloc(apiClient: context.read<HolidaysApiDioClient>()),
           ),
-          BlocProvider(create: (context) => ThemeBloc()),
-          BlocProvider(create: (context) => LanguageBloc()),
+          BlocProvider(
+            create: (context) =>
+                ThemeBloc(context.read<SharedPreferences>())
+                  ..add(ThemeInitEvent()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                LanguageBloc(context.read<SharedPreferences>())
+                  ..add(LanguageInitEvent()),
+          ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, themState) {
