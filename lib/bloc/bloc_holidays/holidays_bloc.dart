@@ -17,6 +17,9 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
           stateType: null,
           stateYear: null,
           stateHolidaysList: [],
+          countryList: null,
+          isLoading: false,
+          error: null,
         ),
       ) {
     on<DropDownCountryEvent>(_onDropDownCountryEvent);
@@ -93,7 +96,18 @@ class HolidaysBloc extends Bloc<HolidaysEvent, HolidaysState> {
     DropDownTypeEvent event,
     Emitter<HolidaysState> emit,
   ) {
-    emit(HolidaysState(stateType: event.selectedType, stateHolidaysList: []));
+    emit(
+      HolidaysState(
+        stateMonth: state.stateMonth,
+        stateType: event.selectedType,
+        stateYear: state.stateYear,
+        stateCountry: state.stateCountry,
+        stateHolidaysList: [],
+        isLoading: false,
+        countryList: state.countryList,
+        error: null,
+      ),
+    );
   }
 
   Future<void> _onHolidaysButtonEvent(
